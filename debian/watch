@@ -1,0 +1,2 @@
+version=3
+https://github.com/vmware/open-vm-tools/releases .*files/[0-9]+/open-vm-tools-([0-9.-]+)\.tar\.gz
