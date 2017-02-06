@@ -1,9 +1,82 @@
+open-vm-tools (2:10.0.7-3227872-5ubuntu1~16.04.1) xenial; urgency=low
+
+  * Backport to xenial for kernel 4.8 support.  (LP: #1662116)
+
+ -- Andy Whitcroft <apw@ubuntu.com>  Mon, 06 Feb 2017 16:15:40 +0000
+
+open-vm-tools (2:10.0.7-3227872-5ubuntu1) yakkety; urgency=low
+
+  * Merge with Debian; remaining changes:
+    - Build without xmlsecurity support and xerces for now (universe).
+
+ -- Iain Lane <iain.lane@canonical.com>  Fri, 30 Sep 2016 16:03:58 +0100
+
+open-vm-tools (2:10.0.7-3227872-5) unstable; urgency=medium
+
+  * [9295c22] Add .travis.yml from http://travis.debian.net.
+  * [af7da59] Fix building the vmxnet module for kernel 4.7.
+    Thanks to Hilmar Preuße (Closes: #836915)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sat, 17 Sep 2016 23:26:58 +0200
+
+open-vm-tools (2:10.0.7-3227872-4.1ubuntu1) yakkety; urgency=medium
+
+  * Merge with Debian; remaining changes:
+    - Build without xmlsecurity support and xerces for now (universe).
+
+ -- Matthias Klose <doko@ubuntu.com>  Tue, 02 Aug 2016 14:23:27 +0200
+
+open-vm-tools (2:10.0.7-3227872-4.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Bernd Zeimetz ]
+  * [0176637] Recommend lsb_release for consistent hostinfo.
+
+  [ Raphaël Hertzog ]
+  * [257c90b] Fix build failure with GCC 6.
+    Thanks to Paul Wise for the patch. (Closes: #812046)
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Thu, 21 Jul 2016 17:24:34 +0200
+
+open-vm-tools (2:10.0.7-3227872-4) unstable; urgency=medium
+
+  * [007eacb] Better check for availability of vmware-checkvm and -rpctool.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sat, 04 Jun 2016 07:31:17 +0200
+
+open-vm-tools (2:10.0.7-3227872-3) unstable; urgency=medium
+
+  * [5060f42] Notify vmware when removing open-vm-tools.
+    Thanks to Yanhui He (Closes: #825810)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 31 May 2016 11:15:30 +0200
+
+open-vm-tools (2:10.0.7-3227872-2ubuntu2) yakkety; urgency=medium
+
+  * No-change rebuild for libicu soname change.
+
+ -- Matthias Klose <doko@ubuntu.com>  Fri, 22 Apr 2016 22:58:57 +0000
+
 open-vm-tools (2:10.0.7-3227872-2ubuntu1) xenial; urgency=low
 
   * Merge from Debian unstable (LP: #1558198).  Remaining changes:
     - Build without xmlsecurity support and xerces for now (universe).
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 14 Apr 2016 17:06:49 -0700
+
+open-vm-tools (2:10.0.7-3227872-4) unstable; urgency=medium
+
+  * [007eacb] Better check for availability of vmware-checkvm and -rpctool.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sat, 04 Jun 2016 07:31:17 +0200
+
+open-vm-tools (2:10.0.7-3227872-3) unstable; urgency=medium
+
+  * [5060f42] Notify vmware when removing open-vm-tools.
+    Thanks to Yanhui He (Closes: #825810)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 31 May 2016 11:15:30 +0200
 
 open-vm-tools (2:10.0.7-3227872-2) unstable; urgency=medium
 
@@ -1270,4 +1343,3 @@ open-vm-tools (2007.09.04-56574-1) experimental; urgency=low
   * Initial release (Closes: #441905).
 
  -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 09 Sep 2007 16:53:00 +0200
-
