@@ -10,3 +10,12 @@ fi
 
 #DEBHELPER#
 
+# NOT-Automatically added by dh_systemd_start - as it has issues on start
+# But copied from what it would have added (as stop works fine as-is)
+# Should be at the Tail of debhelper section
+if [ -d /run/systemd/system ]; then
+    deb-systemd-invoke stop run-vmblock\\x2dfuse.mount >/dev/null
+fi
+# End NOT-automatically added section
+
+exit 0

@@ -1,3 +1,277 @@
+open-vm-tools (2:10.2.0-3~ubuntu0.16.04.1) xenial; urgency=medium
+
+  * backport Bionic open-vm-tools to Xenial (LP: #1741390)
+    - d/control: B-D for dh-autoreconf and dh-systemd
+    - d/rules: re-add autoreconf and systemd
+    - d/control: B-D to debhelper version of xenial supporting compat 10
+    - d/compat: compat level 10 is latest xenial supported level
+    - d/rules: go back from override_dh_installsystemd to
+      override_dh_systemd_enable and override_dh_systemd_start as needed on
+      xenials debhelper version.
+    - d/rules: drop --no-restart-after-upgrade which only exists in debhelper
+      10, the version 9 behavior defaults to what we need.
+    - debian/rules: dh_systemd_start in xenial has issues with the escaping of
+      the run-vmblock\\x2dfuse.mount job, so drop this call
+    - debian/open-vm-tools-desktop.postinst: add a fixed version of what
+      dh_systemd_start would have added
+    - d/open-vm-tools-desktop.prerm, d/open-vm-tools-desktop.postrm: add what
+      dh_systemd_start would have added (as-is since those sections worked)
+    - d/control: update maintainers
+  * d/open-vm-tools.service: Add After=local-fs.target dependency ensuring
+    filesystems are ready to fix a race on startup (LP: #1750780)
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 15 Feb 2018 09:36:20 +0100
+
+open-vm-tools (2:10.2.0-3ubuntu3) bionic; urgency=medium
+
+  * Disable PrivateTmp for the open-vm-tools.service as it triggers issues
+    when triggering processes that need tmp through VMOMI API (LP: #1758428)
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 19 Apr 2018 11:23:58 +0200
+
+open-vm-tools (2:10.2.0-3ubuntu2) bionic; urgency=medium
+
+  * Revert change in d/open-vm-tools.service that added After=local-fs.target.
+    It turned out that the systemd in bionic already implicitly fixes
+    this issue (the change is still needed for backports) (LP: 1750780)
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 27 Feb 2018 08:03:13 +0100
+
+open-vm-tools (2:10.2.0-3ubuntu1) bionic; urgency=medium
+
+  * d/open-vm-tools.service: Add After=local-fs.target dependency ensuring
+    filesystems are ready to fix a race on startup (LP: #1750780)
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 22 Feb 2018 08:39:26 +0100
+
+open-vm-tools (2:10.2.0-3) unstable; urgency=medium
+
+  * [47e50a1] Fix debhelper dep for backports
+  * [34538a5] Make tools.conf useful.
+    Thanks to Dariusz Gadomski (Closes: #889884)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Wed, 14 Feb 2018 17:22:52 +0100
+
+open-vm-tools (2:10.2.0-2) unstable; urgency=medium
+
+  * [249d54c] Fix wayland segfault.
+    Adding a patch from Fedora to fix a wayland/gnome related segfault.
+    Thanks to Oliver Kurth (Closes: #887755)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 23 Jan 2018 23:50:17 +0100
+
+open-vm-tools (2:10.2.0-1) unstable; urgency=medium
+
+  * [f0bf956] Add .travis.yml which was removed by gbp.
+  * [892e2f6] Build with gtk3.
+  * [03a655b] Check if debhelper handles \ in systemd units.
+    Thanks to Oliver Kurth (Closes: #886191)
+  * [5bf9301] Drop -dkms package.
+    Thanks to Christian Ehrhardt (Closes: #884656)
+  * [236cdba] Update upstream source from tag 'upstream/10.2.0'
+    Update to upstream version '10.2.0'
+    with Debian dir d5190e486b6beb65ee7ed31c0c23a789b8f60cab
+    (Closes: #884496)
+  * [692beff] snapshot changelog.
+  * [45aa743] Add .travis.yml which was removed by gbp.
+  * [aabeded] Fix dpkg --compare-versions call
+  * [0697425] Better debhelper version parsing.
+  * [390ec09] fix even more makefile bugs.
+  * [6e5fa38] Refreshing patches.
+    Dropping kernel-module related patches.
+  * [cbfec05] Drop dh_autoreconf, not needed anymore.
+  * [d5fef50] autotools-dev is done by dh now.
+  * [b66ab14] use dh_installsystemd
+
+ -- Bernd Zeimetz <bzed@debian.org>  Fri, 19 Jan 2018 12:52:49 +0100
+
+open-vm-tools (2:10.1.15-1) unstable; urgency=medium
+
+  * [78a17f1] Remove fixed CXX std setting.
+  * [f96f479] Updated version 10.1.15 from 'upstream/10.1.15'
+    with Debian dir c44394c71e055f4cfd3a15ee578fc9895d64ebb1
+  * [682790b] Refreshing patches.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sat, 21 Oct 2017 15:02:46 +0200
+
+open-vm-tools (2:10.1.10-3) unstable; urgency=medium
+
+  * [00bc9bb] Build with CXXFLAGS=-std=c++14.
+    Thanks to Rene Engelhard and Oliver Kurth (Closes: #876121)
+  * [6b61376] Re-add .travis.yml.
+    Seems it went missing with the last merge.
+  * [bf07ae8] Work around dh_systemd escaping bugs again.
+    Seems the unit escaping changed with a new dh version.
+    Work around the known and reported fails again.
+    Thanks to Christian Ehrhardt (Closes: #875657)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Thu, 21 Sep 2017 13:24:08 +0200
+
+open-vm-tools (2:10.1.10-2) unstable; urgency=medium
+
+  [ Shota Aratono ]
+  * [5ab87bd] Fix scsi timeout setting error on debian stretch
+  * [c0847eb] Fix attempting change setting to unintentional target
+
+  [ Raphaël Hertzog ]
+  * [dc2e27f] Add patch to support resolution switching with KMS.
+    This is needed for proper support of Wayland sessions. (Closes: #872779)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 29 Aug 2017 23:32:32 +0200
+
+open-vm-tools (2:10.1.10-1) unstable; urgency=medium
+
+  * Drop the extra part of the version string.
+    Easier to handle in the short variant.
+  * [6be6a49] Updating watch file.
+    Use tags from github.
+  * [8c25235] Updated version 10.1.10 from 'upstream/10.1.10'
+    with Debian dir 3dddea7985f21457b294b5f554d5ecdf32aabfff
+  * [195cead] Refreshing patches.
+    Removing cve-2015-5191.patch as it is part of the upstream release.
+  * [e6b3fd5] Build using libssl-dev and libxmlsec1-dev. (Closes: #859416)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sat, 12 Aug 2017 23:57:40 +0200
+
+open-vm-tools (2:10.1.5-5055683-5) unstable; urgency=high
+
+  * [dec8df6] Upstream fix for CVE-2015-5191 (Closes: #869633)
+  * [718133e] Enable PrivateTmp for the open-vm-tools.service.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 25 Jul 2017 10:46:40 +0200
+
+open-vm-tools (2:10.1.5-5055683-4) unstable; urgency=medium
+
+  * [27689b3] Load the fuse module before mounting /run/vmblock-fuse.
+    Thanks to Norbert Lange (Closes: #860875, #860861)
+  * [008bdde] Don't recommend -dkms for -desktop.
+    The dkms package is clearly not necessary anymore here.
+    Thanks to Oliver Kurth (Closes: #860857)
+  * [ffc37f2] Let -desktop depend on fuse.
+    Mounting fuse filesystems requires mount.fuse - and doing so
+    is required for a working desktop running under VMware.
+  * [cf1f9b3] Ensure /run/vmblock-fuse is mounted properly.
+    - open-vm-tools-desktop.postinst: Add the fuse module if it was
+      not loaded into the kernel before
+    - Handle the mount unit with dh_systemd_*
+    - Ensure /run/vmblock-fuse is mounted before open-vm-tools.service
+      is started.
+  * [1f479db] Do not restart run-vmblock\x2dfuse.mount on upgrades.
+    Restarting won't work if people are using the mountpoint,
+    also it would require to restart vmtoolsd.
+  * Unfortunately mounting the fuse filesystem properly depends
+    on a fix in deb-systemd-invoke, see #861204.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sun, 30 Apr 2017 06:21:41 +0200
+
+open-vm-tools (2:10.1.5-5055683-3) unstable; urgency=medium
+
+  * [0aa95b6] Start open-vm-tools before cloud-init-local.service.
+    Required for a working guest customization as reported by VMware.
+    Also add cloud-init to 'Suggests'.
+    Thanks to Sankar Tanguturi (Closes: #859677)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sun, 09 Apr 2017 21:54:21 +0200
+
+open-vm-tools (2:10.1.5-5055683-2) unstable; urgency=medium
+
+  * [651cdfe] Depend on iproute2.
+    Necessary for /etc/vmware-tools/scripts/vmware/network.
+  * [ed95c1d] Depend on libssl1.0-dev | libssl-dev.
+    Thanks to Tiago Daitx (Closes: #856569)
+    Makes building the package in Ubuntu easier.
+  * [2750700] Add o-v-t as dependency of o-v-t-dev.
+    Thanks to Andreas Beckmann (Closes: #858494)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Thu, 23 Mar 2017 09:35:16 +0100
+
+open-vm-tools (2:10.1.5-5055683-1) unstable; urgency=medium
+
+  * [60d1417] Merge tag 'upstream/10.1.5-5055683'
+    Upstream version 10.1.5-5055683
+    Closes: #856330
+
+    10.1.5 is a point release fixing the following issues:
+    - Authentication failure is reported as unknown general system error.
+      Attempts to authenticate through VGAuth service might result
+      in an authentication-specific error such as an expired account or
+      password. The authentication-specific error might then be incorrectly
+      reported as an unknown general system error, similar to the following:
+      CommunicationException: Failed to create temp file on target
+      <IP_ADDRESS>: A general system error occurred: Unknown error
+
+    - Unable to backup virtual machines with active Docker containers.
+      This bug should not happen in Debian stretch at all, but might
+      be relevant for backports.
+
+    - Fix ISO mappings for CentOS/OracleLinux. Not relevant for Debian
+
+    - Thaw Filesystems if snapshot commit message to VMX fails.
+
+    - Add missing agent configuration files that were accidentally
+      ignored by .gitignore
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 28 Feb 2017 15:54:58 +0100
+
+open-vm-tools (2:10.1.0-4449150-4) unstable; urgency=medium
+
+  [ Chris Glass ]
+  * [d55b33f] Point the control file's homepage to the new one.
+    The upstream open-vm-tools switched from sourceforge to github. This
+    simply updates the link to reflect that.
+    Signed-off-by: Chris Glass <chris.glass@canonical.com>
+
+  [ Bernd Zeimetz ]
+  * [f44a9a8] Drop duplicate udev rules.
+    Timeouts are set in 99-vmware-scsi-udev.rules now,
+    shipped by upstream.
+    Thanks to Bernhard Schmidt (Closes: #851240)
+  * [21df3fa] Install vgauth.service.
+    vgauth is a service that allows authentication in the guest using SAML
+    tokens. Necessary for guest operations initiated from the vSphere
+    datacenter. (Closes: #855337)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 21 Feb 2017 22:45:06 +0100
+
+open-vm-tools (2:10.1.0-4449150-3) unstable; urgency=medium
+
+  * [17b04da] Override dh_md5sums for arch-dependent packages only.
+    Thanks to Santiago Vila (Closes: #849876)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sun, 01 Jan 2017 22:11:18 +0100
+
+open-vm-tools (2:10.1.0-4449150-2) unstable; urgency=medium
+
+  * [fe8ae94] Stay with .gz as compression.
+  * [afb2f52] Use systemd-detect-virt if available.
+    Use systemd-detect-virt to detect VMware platform because
+    vmware-checkvm might misbehave on non-VMware platforms.
+    (RHBZ#1251656)
+  * [1505d5f] Re-indent files properly.
+  * [1b0b7eb] vm-support script needs lspci from pciutils.
+    (RHBZ#1388766)
+  * [1e2eb34] Make dpkg --verify happy now. (Closes: #847221)
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 06 Dec 2016 22:58:30 +0100
+
+open-vm-tools (2:10.1.0-4449150-1) unstable; urgency=medium
+
+  * [72150f0] Merge tag 'upstream/10.1.0-4449150'
+    Upstream version 10.1.0-4449150
+  * [d4743dd] Bump dh compat level to 10.
+  * [acce982] Handle open-vm-tools subdirectory as shipped by upstream.
+  * [9047555] Install upstream changelog.
+  * [fafb845] Remove extra \ from md5sums file.
+    See #843163
+    dpkg: -V fails on files with \ in the name
+    for details.
+  * [1455af1] Refreshing patches.
+  * [776971c] dh_autoreconf_clean doesn't need --sourcedirectory.
+  * [d50714b] Stay with libssl1.0 for now. (Closes: #828476)
+  * [a0c6696] Fix dkms.sh call for new directory structure.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Wed, 16 Nov 2016 03:35:44 +0100
+
 open-vm-tools (2:10.0.7-3227872-5ubuntu1~16.04.2) xenial; urgency=medium
 
   * Make tools.conf template useful. (LP: #1748122)

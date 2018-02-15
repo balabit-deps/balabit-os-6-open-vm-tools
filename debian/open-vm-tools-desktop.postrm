@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+# NOT-Automatically added by dh_systemd_start - as it has issues on start
+# But copied from what it would have added (as stop works fine as-is)
+if [ -d /run/systemd/system ]; then
+    systemctl --system daemon-reload >/dev/null || true
+fi
+# End NOT-automatically added section
+
+#DEBHELPER#
+
+exit 0

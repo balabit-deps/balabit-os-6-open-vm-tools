@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+# load the fuse module just in case its missing
+if ! lsmod | grep -qE '^fuse\s+'; then
+    modprobe fuse || true
+fi
+
+#DEBHELPER#
+
+# replaces the deb-systemd-invoke start run-vmblock\\x2dfuse.mount that is
+# broken on Xenial due to the escaping of the service.
+# Intentionally AFTER debhelper to have the scripts available and enabled.
+#
+# It follows the principle of deb-systemd-invoke start (we don't have to
+# care about restart here as the original was only called with start here).
+# So it comes down to: "If the unit is enabled, start it now"
+if [ -d /run/systemd/system ]; then
+    systemctl --system daemon-reload >/dev/null || true
+    enabled="$(systemctl is-enabled -- run-vmblock\\x2dfuse.mount)"
+    if [ "${enabled}" = "enabled" ]; then
+        systemctl start run-vmblock\\x2dfuse.mount
+    else
+        echo "run-vmblock\\x2dfuse.mount is a disabled or a static unit, not starting it."
+    fi
+fi
+
+exit 0
