@@ -1,3 +1,9 @@
+open-vm-tools (2:10.0.7-3227872-5ubuntu1~16.04.2) xenial; urgency=medium
+
+  * Make tools.conf template useful. (LP: #1748122)
+
+ -- Dariusz Gadomski <dariusz.gadomski@canonical.com>  Thu, 15 Feb 2018 11:19:17 +0100
+
 open-vm-tools (2:10.0.7-3227872-5ubuntu1~16.04.1) xenial; urgency=low
 
   * Backport to xenial for kernel 4.8 support.  (LP: #1662116)
